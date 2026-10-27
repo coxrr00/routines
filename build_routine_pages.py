@@ -137,7 +137,7 @@ h1 em{font-style:normal;color:var(--accent)}
 .stats{display:flex;align-items:center;justify-content:center;gap:18px;padding-bottom:18px;margin-bottom:18px;border-bottom:1px dashed var(--line)}
 .stat{text-align:center}
 .stat b{display:block;font-family:var(--display);font-weight:700;font-size:52px;line-height:1;color:var(--brand);font-variant-numeric:tabular-nums}
-.stat span{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.stat span{display:block;line-height:1.35;margin-top:4px;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
 .arrow{font-family:var(--display);font-size:34px;color:var(--line)}
 .quote{font-size:18px;font-style:italic;margin:0}
 .sig{font-family:var(--hand);font-size:30px;color:var(--brand);margin-top:6px;line-height:1}
