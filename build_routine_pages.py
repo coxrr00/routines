@@ -1,4 +1,5 @@
 """Builds the routines website (coxrr00.github.io/routines): one page per character at /<name>/.
+/<name>/ = Instagram ManyChat link, /<name>/fb/ = Facebook ManyChat link.
 Run it, then commit and push; GitHub Pages serves the repo root. Copy comes from the approved PDFs (Cindy, Daniel) and Linda's locked vid 6 script + vid 7 DM draft."""
 import html, pathlib, sys
 
@@ -43,7 +44,8 @@ CHARS = {
     ],
     gummy_h="The gummies in my routine",
     gummy_p="Rootation berberine gummies, berry flavored, with apple cider vinegar, milk thistle and Ceylon cinnamon. They're part of my routine to support healthy blood sugar, and they've helped with my cravings. No pills to swallow.",
-    link="https://linktw.in/mchdpv",
+    link="https://linktw.in/mchdpv",  # Linktwin "Manychat / DM Cindy IG"
+    link_fb="https://linktw.in/glksoc",  # Linktwin "Cindy Hayes ManyChat FB"
     disclaimer="Cindy Hayes is an AI-generated character (#syntheticperformer). This page is for general information and inspiration only and is not medical advice. Never stop any medication on your own. Rootation gummies are a dietary supplement, not a weight loss product, and are not intended to diagnose, treat, cure, or prevent any disease. These statements have not been evaluated by the Food and Drug Administration. My results came from my whole routine over a year. Individual results vary. #rootationpartner #simplert",
   ),
   "daniel": dict(
@@ -83,7 +85,8 @@ CHARS = {
     ],
     gummy_h="The gummies in my routine",
     gummy_p="Rootation berberine gummies, berry flavored, with apple cider vinegar, milk thistle and Ceylon cinnamon. They're part of my routine to support healthy blood sugar, and they've helped with my cravings and that afternoon slump. No pills to swallow.",
-    link="https://linktw.in/sccaxx",
+    link="https://linktw.in/sccaxx",  # Linktwin "ManyChat Daniel Park IG"
+    link_fb="https://linktw.in/mbucqi",  # Linktwin "ManyChat Daniel Park FB"
     disclaimer="Daniel Park is an AI-generated character (#syntheticperformer). This page is for general information and inspiration only and is not medical advice. Never stop any medication on your own. Rootation gummies are a dietary supplement, not a weight loss product, and are not intended to diagnose, treat, cure, or prevent any disease. These statements have not been evaluated by the Food and Drug Administration. My results came from my whole routine over more than a year. Individual results vary. #rootationpartner #simplert",
   ),
   "linda": dict(
@@ -112,7 +115,7 @@ CHARS = {
     ],
     gummy_h="The gummies I take every day",
     gummy_p="My Rootation berberine gummies, berry flavored, with apple cider vinegar, milk thistle and Ceylon cinnamon. They're made to support healthy blood sugar as part of a routine, and for me they've helped with the late-night cravings. No pills to swallow.",
-    link="https://linktw.in/krpurv",
+    link="https://linktw.in/krpurv",  # Linktwin "Manychat / DM Linda IG" (no FB ManyChat link exists)
     disclaimer="Linda is an AI-generated character (#syntheticperformer). This page is for general information and inspiration only and is not medical advice. Never stop any medication on your own. Rootation gummies are a dietary supplement and are not intended to diagnose, treat, cure, or prevent any disease. These statements have not been evaluated by the Food and Drug Administration. Individual results vary. #rootationpartner #simplert",
   ),
 }
@@ -202,7 +205,7 @@ def section_html(s):
     out.append('</section>')
     return "\n".join(out)
 
-def page(key, c):
+def page(key, c, link, up):
     stats = ""
     if c["stats"]:
         (a, al), (b, bl) = c["stats"]
@@ -219,7 +222,7 @@ def page(key, c):
 <meta property="og:description" content="{desc}">
 <meta property="og:image" content="{SITE}/{key}.jpg">
 <meta property="og:type" content="website">
-<link rel="icon" href="../{key}.jpg">
+<link rel="icon" href="{up}{key}.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Caveat:wght@600&family=Figtree:ital,wght@0,400;0,600;0,700;1,400&display=swap">
 <style>{CSS % c['colors']}</style>
@@ -228,20 +231,24 @@ def page(key, c):
 <div class="eyebrow">{c['eyebrow']}</div>
 <h1>{c['h1']}</h1>
 <p class="sub">{c['sub']}</p>
-<div class="by"><img src="../{key}.jpg" alt="{first}"><span>{c['byline']}</span></div>
+<div class="by"><img src="{up}{key}.jpg" alt="{first}"><span>{c['byline']}</span></div>
 </div></header>
 <main class="wrap">
 <div class="lift"><div class="intro">{stats}<p class="quote">&ldquo;{html.escape(c['quote'])}&rdquo;</p><div class="sig">{c['sig']}</div></div></div>
 {''.join(section_html(s) for s in c['sections'])}
-<div class="gummy"><h2>{c['gummy_h']}</h2><p>{html.escape(c['gummy_p'])}</p><a class="btn" href="{c['link']}" target="_blank" rel="noopener">See them on Amazon</a></div>
+<div class="gummy"><h2>{c['gummy_h']}</h2><p>{html.escape(c['gummy_p'])}</p><a class="btn" href="{link}" target="_blank" rel="noopener">See them on Amazon</a></div>
 <footer>{c['disclaimer']}</footer>
 </main>
-<div class="bar"><a class="btn" href="{c['link']}" target="_blank" rel="noopener">Get the gummies I take</a></div>
+<div class="bar"><a class="btn" href="{link}" target="_blank" rel="noopener">Get the gummies I take</a></div>
 </body></html>
 """
 
 for key, c in CHARS.items():
     if "—" in str(c): sys.exit(f"em-dash in {key}")
+    # /<name>/ is the Instagram ManyChat page; /<name>/fb/ carries the Facebook ManyChat link
     (ROOT / key).mkdir(exist_ok=True)
-    (ROOT / key / "index.html").write_text(page(key, c), encoding="utf-8")
+    (ROOT / key / "index.html").write_text(page(key, c, c["link"], "../"), encoding="utf-8")
+    if c.get("link_fb"):
+        (ROOT / key / "fb").mkdir(exist_ok=True)
+        (ROOT / key / "fb" / "index.html").write_text(page(key, c, c["link_fb"], "../../"), encoding="utf-8")
     print("wrote", key)
