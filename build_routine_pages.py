@@ -1,6 +1,6 @@
 """Builds the routines website (coxrr00.github.io/routines): one page per character at /<name>/.
 /<name>/ = Instagram ManyChat link, /<name>/fb/ = Facebook ManyChat link.
-Run it, then commit and push; GitHub Pages serves the repo root. Copy comes from the approved PDFs (Cindy, Daniel) and Linda's locked vid 6 script + vid 7 DM draft."""
+Run it, then commit and push; GitHub Pages serves the repo root. Copy comes from the approved PDFs (Cindy, Daniel), Linda's locked vid 6 script + vid 7 DM draft, and Hank's locked scripts (vids 1, 3, 4, 5; approved 2026-10-30)."""
 import html, pathlib, sys
 
 ROOT = pathlib.Path(__file__).parent
@@ -117,6 +117,51 @@ CHARS = {
     gummy_p="My Rootation berberine gummies, berry flavored, with apple cider vinegar, milk thistle and Ceylon cinnamon. They're made to support healthy blood sugar as part of a routine, and for me they've helped with the late-night cravings. No pills to swallow.",
     link="https://linktw.in/krpurv",  # Linktwin "Manychat / DM Linda IG" (no FB ManyChat link exists)
     disclaimer="Linda is an AI-generated character (#syntheticperformer). This page is for general information and inspiration only and is not medical advice. Never stop any medication on your own. Rootation gummies are a dietary supplement and are not intended to diagnose, treat, cure, or prevent any disease. These statements have not been evaluated by the Food and Drug Administration. Individual results vary. #rootationpartner #simplert",
+  ),
+  "hank": dict(
+    title="Hank's Recipes & Routine",
+    eyebrow="Hank's recipes &amp; routine &middot; free",
+    h1='The boring habits that <em>work</em>',
+    sub="The recipes from my videos and the simple things I stick to every day. Nothing fancy, nothing I can't do in my own kitchen.",
+    byline="Hank Reeves &middot; 62",
+    stats=None,
+    quote="Four years ago I couldn't climb my own porch steps. I didn't do anything crazy. I just stopped skipping the boring stuff.",
+    sig="Hank",
+    colors=dict(hero="#1f2a33", hero2="#33424d", accent="#e9b872", ink="#1f2428", brand="#8a5a2b", paper="#f5f2ec", card="#ffffff", line="#e2dccf", muted="#6b6a64"),
+    sections=[
+      dict(kind="habits", h="My 5 boring habits", lead="Don't do them all at once. Pick one, stick with it, then add the next.", items=[
+        ("Eggs for breakfast", "Most mornings I start with eggs. A real breakfast keeps me off the snacks till lunch.", None),
+        ("A walk at dusk", "After dinner I take a walk while the sun goes down. No tracker, no pace. Just get out the door.", None),
+        ("Curls in the garage", "A few sets with the dumbbells in the garage. Ten minutes, and I don't skip it.", None),
+        ("Phone in the drawer at 9", "At nine o'clock the phone goes in the kitchen drawer. Best sleep habit I ever picked up.", None),
+        ("A yogurt bowl", "Plain Greek yogurt with fruit instead of something sweet out of a box.", None),
+      ]),
+      dict(kind="recipe", h="Flourless potato buns", lead="No flour, no yeast. Makes a small batch.", items=[
+        ("1", "potato, boiled and mashed smooth"),
+        ("2", "eggs"),
+        ("1/2 cup", "thick Greek yogurt (thin yogurt makes them too soft)"),
+        ("1 tsp", "baking powder, plus a pinch of salt"),
+        ("1", "egg yolk to brush on top, and sesame seeds"),
+      ], note="Mix it all smooth, spoon into mounds on a lined tray, brush with yolk, sprinkle sesame. Bake at 350F for about 20 to 25 minutes until golden."),
+      dict(kind="recipe", h="Blueberry lime drink", lead="Squeeze the lime on the crushed berries and watch them turn red.", items=[
+        ("1 cup", "blueberries"),
+        ("1 tsp", "cinnamon"),
+        ("1/2", "lime, juiced"),
+        ("1 glass", "water"),
+      ], note="Blend it all. The lime keeps the color bright instead of going dull, and a cup of blueberries gives you about three and a half grams of fiber."),
+      dict(kind="recipe", h="Banana French toast, no bread", lead="Cook it like an omelet and fold it.", items=[
+        ("1", "ripe banana, mashed"),
+        ("2", "eggs"),
+        ("pinch", "cinnamon and a little vanilla"),
+      ], note="Whisk it smooth, pour into a buttered pan on low to medium heat, let it set, then fold it in half. It comes out soft and custardy. Top with blueberries."),
+    ],
+    gummy_h="The one thing I add every day",
+    gummy_p="One Physician's Choice 60 Billion Probiotic capsule with breakfast, once a day. Ten probiotic strains plus prebiotics, for daily digestive support.",
+    btn_card="See it on Amazon",
+    btn_bar="Get the probiotic I take",
+    link="https://linktw.in/ijuphe",  # Linktwin "Growth DM Hank Reeves IG - 60B Probiotic 30ct"
+    link_fb="https://linktw.in/cazevz",  # Linktwin "Growth DM Hank Reeves FB - 60B Probiotic 30ct"
+    disclaimer="Hank Reeves is an AI-generated character (#syntheticperformer). This page is for general information and inspiration only and is not medical advice. Physician's Choice probiotics are a dietary supplement and are not intended to diagnose, treat, cure, or prevent any disease. These statements have not been evaluated by the Food and Drug Administration. Individual results vary. #physicianschoicepartner",
   ),
 }
 
@@ -236,10 +281,10 @@ def page(key, c, link, up):
 <main class="wrap">
 <div class="lift"><div class="intro">{stats}<p class="quote">&ldquo;{html.escape(c['quote'])}&rdquo;</p><div class="sig">{c['sig']}</div></div></div>
 {''.join(section_html(s) for s in c['sections'])}
-<div class="gummy"><h2>{c['gummy_h']}</h2><p>{html.escape(c['gummy_p'])}</p><a class="btn" href="{link}" target="_blank" rel="noopener">See them on Amazon</a></div>
+<div class="gummy"><h2>{c['gummy_h']}</h2><p>{html.escape(c['gummy_p'])}</p><a class="btn" href="{link}" target="_blank" rel="noopener">{c.get('btn_card', 'See them on Amazon')}</a></div>
 <footer>{c['disclaimer']}</footer>
 </main>
-<div class="bar"><a class="btn" href="{link}" target="_blank" rel="noopener">Get the gummies I take</a></div>
+<div class="bar"><a class="btn" href="{link}" target="_blank" rel="noopener">{c.get('btn_bar', 'Get the gummies I take')}</a></div>
 </body></html>
 """
 
